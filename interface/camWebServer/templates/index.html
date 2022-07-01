@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Submarine Navigation</title>
+    <link rel="stylesheet" href='../static/style.css'/>
+  </head>
+  <body>
+    <h1>Submarine Navigation</h1>
+    <p><img src="{{ url_for('video_feed') }}" width="50%" align="left">
+        <form method="POST">
+            <fieldset>
+                <legend>Submarine Motion</legend>
+                <label>Movement Range (F/R/U/D/CCW/CW/SL/SR): (0 - 8)<br /><br>
+                <input type="text" name="movementType" size="10" align="left" value= {{movementType}}></label><br><br><br><br><br><br>
+                <label>Power Range (Full/Half/Quarter): (0 - 2)<br /><br>
+                <input type="text" name="powerLevel" size="10" align="left" value= {{powerLevel}}></label><br><br><br><br><br><br>
+                <label>Duration Range (sec): (1 - 9)<br /><br>
+                <input type="text" name="duration" size="10" align="left" value= {{duration}}></label><br><br><br><br><br><br>
+                <input type="submit" size ="10">
+            </fieldset>
+        </form>
+  </body>
+  <footer>
+    <p> @2021 Developed for Jon :) </p>
+  </footer> 
+</html>

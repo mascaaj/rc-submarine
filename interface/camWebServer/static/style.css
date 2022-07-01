@@ -1,0 +1,39 @@
+body{
+	background: rgb(56, 56, 56);
+	color: rgb(204, 90, 14);
+	padding:1%;
+	text-align: center;
+}
+fieldset {
+    width: 200px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    padding: 20px;
+	text-align: left;
+    }
+legend {
+    color: rgb(204, 90, 14);
+    background: rgb(56, 56, 56);
+    font-size: 2em;
+    border-radius: 10px;
+    border: 1px solid #dcdcdc;
+    padding: 10px 20px;
+    }
+label 
+	{
+    font: bold 20px Verdana, Arial, Helvetica, sans-serif, MS UI Gothic;
+    float: left;
+    width: 50em;
+    text-align:left;
+    vertical-align:text-bottom;
+	}
+input{
+    font-size: 120%;
+    color: #5a5854;
+    background-color: #f2f2f2;
+    border: 1px solid #bdbdbd;
+    border-radius: 5px;
+    padding: 5px 5px 5px;
+    display: block;
+    margin-bottom: 10px;
+}
