@@ -4,7 +4,7 @@ Repository for arduino and interface code for the rc submersible based on [this 
 
 # Index:
 - [Hardware setup](#device-and-hardware-instructions)
-- [Arduino Cli Setup and Usage](#arduino-cli-tips:)
+- [Arduino Cli Setup and Usage](#arduino-cli-tips)
 - [Interfacing with the Raspberry pi](#interfacing-with-raspberry-pi)
 - [Web server interface](#web-server-interface-for-submarine)
 - [Quickstart](#quickstart)
@@ -16,7 +16,7 @@ So you have the submarine all setup and want to roll quickly:
 1. Open 2 terminals on laptop. `Win + R + 'cmd'`
 2. Ssh into the pi `ssh pi@hostname`
 3. Find out which port arduino is connected to ` arduino-cli board list`
-4. Navigate to and run python webserver, if on default port `/dev/ttyACM0`. [Else specify the port](##running-the-application)
+4. Navigate to and run python webserver, if on default port `/dev/ttyACM0`. [Else specify the port](#running-the-application)
 
    ` python3 interface/camWebServer/appCam.py`
 5. Launch the arduino monitor to visualise serial output. If not default port, change in command
