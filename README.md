@@ -2,94 +2,25 @@
 
 Repository for arduino and interface code for the rc submersible based on [this instructable](https://www.instructables.com/DIY-Submersible-ROV/)
 
-# Device and hardware instructions
+# Index:
+- [Hardware setup](#device-and-hardware-instructions)
+- [Arduino Cli Setup and Usage](#arduino-cli-tips:)
+- [Interfacing with the Raspberry pi](#interfacing-with-raspberry-pi)
+- [Web server interface](#web-server-interface-for-submarine)
+- [Quickstart](#quickstart)
 
-## Accelerometer
+# Quickstart:
 
-Arduino : Accelerometer
-3.3v   : Red
-Ground : Black
-SCL    : Orange
-SDA    : Yellow
+So you have the submarine all setup and want to roll quickly:
 
-## Motor Control with IBT2
+1. Open 2 terminals on laptop. `Win + R + 'cmd'`
+2. Ssh into the pi `ssh pi@hostname`
+3. Find out which port arduino is connected to ` arduino-cli board list`
+4. Navigate to and run python webserver, if on default port `/dev/ttyACM0`. [Else specify the port](##running-the-application)
 
-### Deadband
-Emperically, this at +/-47 from 0 speed @512
-Update : deadband is actually smaller, but motor current is not enough to overcome stiction.
-512+/-47 ensure motion
-
-## Connections (Single Motor)
-IBT2 Board : Arduino
-- IBT-2 pin 1 (RPWM) > Arduino pin 5(PWM)
-- IBT-2 pin 2 (LPWM) > Arduino pin 6(PWM)
-- IBT-2 pin 3 (R_EN) > Arduino 5V pin
-- IBT-2 pin 4 (L_EN) > Arduino 5V pin
-- IBT-2 pin 7 (VCC)  > Arduino 5V pin
-- IBT-2 pin 8 (GND)  > Arduino GND
-- IBT-2 pin 5 (R_IS) > Not Connected
-- IBT-2 pin 6 (L_IS) > Not connected
-- Potentiometer RED  > Arduino 5V pin
-- Potentiometer BLA  > Arduino Ground
-- Potentiometer YEL  > Arduino Analog 0
-
-## Connections (multi motor)
-IBT2 Board : Arduino
-
-- RPWM_Output_Dive : 2 // Dive motor pins
-- LPWM_Output_Dive = 3 // Dive motor pins
-- RPWM_Output_FR = 4 // Front Right motor pins
-- LPWM_Output_FR = 5 // Front Right motor pins
-- RPWM_Output_FL = 6 // Front Left motor pins
-- LPWM_Output_FL = 7 // Front Left motor pins
-- RPWM_Output_RR = 8 // Rear Right motor pins
-- LPWM_Output_RR = 9 // Rear Right motor pins
-- RPWM_Output_RL = 10 // Rear Left motor pins
-- LPWM_Output_RL = 11 // Rear Left motor pins
-- 3: 5V
-- 4: 5V
-- 5: Not Connected
-- 6: Not Connected
-- 7: Ground
-- 8: 5V
-
-## Use for testing, make changes in sketch:
-- Set delay value in milliseconds
-
-```
-int delay_value = 1000; // in milliseconds
-```
-
-- Set test type as per details below:
-```
-int test_type = 0;
-/* 0 - Drive forward
- 1 - Drive reverse
- 2 - Surface
- 3 - Dive
- 4 - Turn Left
- 5 - Turn Right
- 6 - Strafe Left
- 7 - Strafe Right
- 8 - All motor control, use potentiometer for speed*/
-```
-
-- Set power level per details below:
-
-```
-int level_type = 2;
-// 0 - Max Speed
-// 1 - Half Speed
-// 2 - Quarter Speed (Default)
-```
-
-- Set if serial input is needed
-```
-int serialInput = 0;
-/* 0 = Not needed - False
-1 = Needed -True*/
-```
-
+   ` python3 interface/camWebServer/appCam.py`
+5. Launch the arduino monitor to visualise serial output. If not default port, change in command
+  `arduino-cli monitor -p /dev/ttyACM0 -l serial`
 # Arduino cli tips:
 
 ## Setup :
@@ -269,10 +200,16 @@ hostname
 
 ## Running the application
 
-- Run application (might want to open another terminal, it will stay running)
+- Run application (might want to open another terminal, it will stay running).
 
 ```
 python3 appCam.py
+```
+
+- The command above will open serial communication on the default port `/dev/ttyACM0`. If the arduino is connected to another port use the following command:
+
+``` 
+python3 appCam.py <new-port-number>
 ```
 
 - If the application has not errored out, on any computer on the same network, navigate to `<hostname>:5000` or `<ipaddress>:5000`
@@ -289,3 +226,92 @@ python3 appCam.py
 
 - Arduino serial monitor should reflect the same values input by the webform.
 
+# Device and hardware instructions
+
+## Accelerometer
+
+- Arduino : Accelerometer
+- 3.3v   : Red
+- Ground : Black
+- SCL    : Orange
+- SDA    : Yellow
+
+## Motor Control with IBT2
+
+### Deadband
+Emperically, this at +/-47 from 0 speed @512
+
+Update : deadband is actually smaller, but motor current is not enough to overcome stiction.
+
+512+/-47 ensure motion
+
+## Connections (Single Motor)
+IBT2 Board : Arduino
+- IBT-2 pin 1 (RPWM) > Arduino pin 5(PWM)
+- IBT-2 pin 2 (LPWM) > Arduino pin 6(PWM)
+- IBT-2 pin 3 (R_EN) > Arduino 5V pin
+- IBT-2 pin 4 (L_EN) > Arduino 5V pin
+- IBT-2 pin 7 (VCC)  > Arduino 5V pin
+- IBT-2 pin 8 (GND)  > Arduino GND
+- IBT-2 pin 5 (R_IS) > Not Connected
+- IBT-2 pin 6 (L_IS) > Not connected
+- Potentiometer RED  > Arduino 5V pin
+- Potentiometer BLA  > Arduino Ground
+- Potentiometer YEL  > Arduino Analog 0
+
+## Connections (multi motor)
+IBT2 Board : Arduino
+
+- RPWM_Output_Dive : 2 // Dive motor pins
+- LPWM_Output_Dive = 3 // Dive motor pins
+- RPWM_Output_FR = 4 // Front Right motor pins
+- LPWM_Output_FR = 5 // Front Right motor pins
+- RPWM_Output_FL = 6 // Front Left motor pins
+- LPWM_Output_FL = 7 // Front Left motor pins
+- RPWM_Output_RR = 8 // Rear Right motor pins
+- LPWM_Output_RR = 9 // Rear Right motor pins
+- RPWM_Output_RL = 10 // Rear Left motor pins
+- LPWM_Output_RL = 11 // Rear Left motor pins
+- 3: 5V
+- 4: 5V
+- 5: Not Connected
+- 6: Not Connected
+- 7: Ground
+- 8: 5V
+
+## Use for testing, make changes in sketch:
+- Set delay value in milliseconds
+
+```
+int delay_value = 1000; // in milliseconds
+```
+
+- Set test type as per details below:
+```
+int test_type = 0;
+/* 0 - Drive forward
+ 1 - Drive reverse
+ 2 - Surface
+ 3 - Dive
+ 4 - Turn Left
+ 5 - Turn Right
+ 6 - Strafe Left
+ 7 - Strafe Right
+ 8 - All motor control, use potentiometer for speed*/
+```
+
+- Set power level per details below:
+
+```
+int level_type = 2;
+// 0 - Max Speed
+// 1 - Half Speed
+// 2 - Quarter Speed (Default)
+```
+
+- Set if serial input is needed
+```
+int serialInput = 0;
+/* 0 = Not needed - False
+1 = Needed -True*/
+```

@@ -2,6 +2,7 @@ from flask import Flask, render_template, Response, request
 from camera_pi import Camera
 import serial
 import time
+import sys
 
 app = Flask(__name__)
 
@@ -34,7 +35,11 @@ def send_serial(message):
     ser.write(string_input.encode())
 
 if __name__ == '__main__':
-    ser = serial.Serial('/dev/ttyACM0',9600,timeout=1)
+    if len(sys.argv)>1:
+        port = sys.argv[1]
+    else:
+        port = '/dev/ttyACM0'
+    ser = serial.Serial(port, 9600, timeout=1)
     ser.flush()
     time.sleep(1)
     app.run(host='0.0.0.0', port=5000, debug=True, threaded=True)
